@@ -1,0 +1,36 @@
+version: '2'
+services:
+  api-mocker-mongodb:
+    build:
+      context: ./
+      dockerfile: ./mongodb/Dockerfile
+    restart: always
+    container_name: api-mocker-mongodb
+    image: hzwangmeng/api-mocker-mongodb
+    hostname: api-mocker-mongodb
+    ports:
+      - 27017:27017
+  api-mocker-server:
+    build:
+      context: ./
+      dockerfile: ./server/Dockerfile
+    restart: always
+    container_name: api-mocker-server
+    image: hzwangmeng/api-mocker-server
+    hostname: api-mocker-server
+    ports:
+      - 7001:7001
+    external_links:
+      - 'api-mocker-mongodb'
+  api-mocker-client:
+    build:
+      context: ./
+      dockerfile: ./client/Dockerfile
+    restart: always
+    container_name: api-mocker-client
+    image: hzwangmeng/api-mocker-client
+    hostname: api-mocker-client
+    ports:
+      - 7002:80
+    external_links:
+      - 'api-mocker-client'
